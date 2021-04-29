@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="memberDao" class="skuniv.sc.yeju.middlePjt.memberData.MemberDao">
+</bean>
+<bean id="memberRegSvc" class="skuniv.sc.yeju.middlePjt.signUp.MemberRegisterService">
+<constructor-arg ref="memberDao" />
+</bean>
+<bean id="searchBean" class="skuniv.sc.yeju.middlePjt.LibraySystem.Search">
+</bean>
+<bean id="rentalBean" class="skuniv.sc.yeju.middlePjt.LibraySystem.Rental">
+</bean>
+</beans>
