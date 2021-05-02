@@ -1,5 +1,4 @@
 package skuniv.sc.yeju.middlePjt.LibraySystem;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,44 +9,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import skuniv.sc.yeju.middlePjt.memberData.LoginDao;
 
-public class Rental implements RentalBean, updateUserpage {
+public class Return implements ReturnBean, updateUserpage{
 	@Autowired
 	LoginDao logindao;
 	
-	public void rental(String name)throws IOException {
-		// 책없을시
-		// 책은 있는데 누가 대여중일때
-		// 책 존재 & 대여 가능
-		String fileName = "C:\\springworks\\LibraryManagementSystem\\src\\main\\java\\skuniv\\sc\\yeju\\middlePjt\\LibraySystem\\bookList.txt";
-		FileReader fr = new FileReader(fileName);
-		BufferedReader br = new BufferedReader(fr);
-		String line = null;
-		boolean chk = false;
-		String[] bookState = {"재고있음", "재고없음"};
+	public void returnbook(String name)throws IOException {
 
+		String fileName = "C:\\springworks\\LibraryManagementSystem\\src\\main\\java\\skuniv\\sc\\yeju\\middlePjt\\LibraySystem\\bookList.txt";
+		String user_fileName = "C:\\springworks\\LibraryManagementSystem\\"+logindao.getEmail()+".txt";
+		FileReader fr = new FileReader(fileName);
+		FileReader fr2 = new FileReader(user_fileName);
+		BufferedReader br = new BufferedReader(fr);
+		BufferedReader br2 = new BufferedReader(fr2);
+		String line = null;
+		String line2 = null;
+		boolean chk = false;
+		boolean chk2 = false;
+		String[] bookState = {"재고있음", "재고없음"};
+		File file = new File(user_fileName);
+		
 		while(line!=null) {
 			line = br.readLine();
-			
-			
-				if(line.contains(name)) {
-					chk = true;
-					if(line.contains(bookState[0])) {
-						System.out.println("대여완료");
-						changeState(fileName, name, bookState[0], bookState[1]);
-						
-						update(logindao.getEmail(), line);
-						break;
-					}
-					else if(line.contains(bookState[1])) {
-						System.out.println("현재 재고가 없어 대여불가능");
-						break;
-					}
-				}
-				else
-					chk = false;
-			
+			if(line.contains(name)) {
+				chk = true;
+				break;
+			}
+			else chk = false;
 		}
-		if(chk == false) System.out.println("도서리스트에 해당 작품 없으므로 대여가 불가능");
+			
+		if(chk == true) {
+			if(file.exists()) {
+				while(line2!=null) {
+					line2 = br2.readLine();
+					System.out.println(line2);
+					System.out.println(name);
+					if(line2.contains(name)) {
+						chk2 = true;
+						break;
+					}
+					
+				}
+				if(chk2 == true) {
+					System.out.println("반납완료");
+					changeState(fileName, name, bookState[1], bookState[0]);
+					update(logindao.getEmail(), line);
+				}
+				else if(chk2==false){
+					System.out.println("해당 책을 대여한 기록이 존재하지 않습니다\"");
+				}
+			}
+			else
+				System.out.println("반납/대여한 기록이 존재하지 않습니다.");
+			}
+		else
+			System.out.println("해당 책은 도서관에 존재하지 않습니다");
+
+
 		br.close();
 		fr.close();
 	}
@@ -67,6 +84,7 @@ public class Rental implements RentalBean, updateUserpage {
 			}
 			else {
 				temp+=line+"\r\n";
+
 			}
 		}
 		FileWriter fw=new FileWriter(inputFile);
@@ -81,9 +99,10 @@ public class Rental implements RentalBean, updateUserpage {
 		if(!userpageFile.exists())
 			userpageFile.createNewFile();
 		FileWriter fw = new FileWriter(userpageFile, true);
-		fw.write("대여목록\r\n");
+		fw.write("반납목록\r\n");
 		fw.write(bookinfo.substring(0,bookinfo.length()-5));
 		
-		fw.close();		
-	}	
+		fw.close();
+		
+	}
 }
