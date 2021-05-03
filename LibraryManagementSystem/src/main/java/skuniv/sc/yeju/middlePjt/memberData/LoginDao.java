@@ -2,7 +2,7 @@ package skuniv.sc.yeju.middlePjt.memberData;
 
 public class LoginDao {
 	
-	public String email;
-	public String getEmail() { return email; }
-	public void setEmail(String email) {this.email = email;}
+	public String ID;
+	public String getID() { return ID; }
+	public void setID(String ID) {this.ID = ID;}
 }

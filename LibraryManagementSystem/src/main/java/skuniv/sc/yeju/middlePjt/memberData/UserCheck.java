@@ -10,45 +10,28 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserCheck implements LoginBean{
-
-	
-	public boolean usercheck(String s) throws IOException {
+	public boolean usercheck(String user) throws IOException {
 		String fileName = "C:\\springworks\\LibraryManagementSystem\\userFile.txt";
 		FileReader fr = new FileReader(fileName);
 		File inputFile = new File(fileName);
-		//File outputFile = new File(tempFile);
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		//BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
 		
 		String line;
-		String repLine;
-		boolean result = false;
+		boolean chk = false;
 		
 		while((line = br.readLine()) != null) {
-			
 			String []s1=line.split(" ");
-			if(s1[2].equals(s)) {
-				System.out.println("로그인 성공");
-				result=true;
+			if(s1[0].equals(user)) {
+				System.out.println(">>로그인 성공");
+				chk=true;
 				break;
 			}
-			
-	
-
 		}
-		if(result==false){
-			System.out.println("아이디를 확인해주세요");
-		}
-		/*
-		 * FileWriter fw=new FileWriter(inputFile); fw.write(temp);
-		 */
-		//fw.close();
-		//bw.close();
+		if(chk==false)
+			System.out.println(">>로그인을 다시 시도하세요");
+		
 		br.close();
-		return result;
-		
-
-		
+		return chk;	
 	}
 
 }

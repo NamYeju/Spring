@@ -1,11 +1,14 @@
 package skuniv.sc.yeju.middlePjt.signUp;
 
 public class RegisterRequest {
+	private String ID;
 	private String name;
 	private String phoneNumber;
 	private String email;
 	private String address;
 	
+	public String getID() {return ID;}
+	public void setID(String ID) {this.ID = ID;}
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name;}
 	public String getPhoneNumber() {return phoneNumber;}

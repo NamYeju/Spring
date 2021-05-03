@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.attribute.FileTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,29 +28,31 @@ public class Rental implements RentalBean, updateUserpage {
 		boolean chk = false;
 		String[] bookState = {"재고있음", "재고없음"};
 
-		while(line!=null) {
+		while(true) {
 			line = br.readLine();
-			
-			
+			if(line==null)
+				break;
+			else {
 				if(line.contains(name)) {
 					chk = true;
 					if(line.contains(bookState[0])) {
-						System.out.println("대여완료");
+						System.out.println(">>대여완료");
 						changeState(fileName, name, bookState[0], bookState[1]);
 						
-						update(logindao.getEmail(), line);
+						update(logindao.getID(), line);
 						break;
 					}
 					else if(line.contains(bookState[1])) {
-						System.out.println("현재 재고가 없어 대여불가능");
+						System.out.println(">>현재 해당 책 재고가 없으므로 대여 불가능");
 						break;
 					}
 				}
 				else
 					chk = false;
+			}
 			
 		}
-		if(chk == false) System.out.println("도서리스트에 해당 작품 없으므로 대여가 불가능");
+		if(chk == false) System.out.println(">>도서리스트에 해당 책이 없으므로 대여 불가능");
 		br.close();
 		fr.close();
 	}
@@ -76,13 +81,18 @@ public class Rental implements RentalBean, updateUserpage {
 
 	}
 
-	public void update(String username, String bookinfo) throws IOException {
-		File userpageFile = new File("C:\\springworks\\LibraryManagementSystem\\"+username+".txt");
+	public void update(String userID, String bookinfo) throws IOException {
+		File userpageFile = new File("C:\\springworks\\LibraryManagementSystem\\"+userID+".txt");
+		String pattern = "yyyy-MM-dd aa hh:mm";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Date lastModifiedDate = new Date();
+		
 		if(!userpageFile.exists())
 			userpageFile.createNewFile();
+		
 		FileWriter fw = new FileWriter(userpageFile, true);
-		fw.write("대여목록\r\n");
 		fw.write(bookinfo.substring(0,bookinfo.length()-5));
+		fw.write(" 대여 "+simpleDateFormat.format(lastModifiedDate)+"\r\n");
 		
 		fw.close();		
 	}	

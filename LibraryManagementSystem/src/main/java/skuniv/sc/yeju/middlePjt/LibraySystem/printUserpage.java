@@ -18,11 +18,11 @@ public class printUserpage{
 	public void print() throws IOException{
 		String username;
 		String str="";
-		username = logindao.getEmail();
+		username = logindao.getID();
 		File userpageFile = new File("C:\\springworks\\LibraryManagementSystem\\"+username+".txt");
 		
 		if(!userpageFile.exists()) {
-			System.out.println("대여/반납 내역이 존재하지 않습니다.");
+			System.out.println(">>대여/반납 내역이 존재하지 않음");
 		}
 		else {
 			FileReader fr = new FileReader(userpageFile);

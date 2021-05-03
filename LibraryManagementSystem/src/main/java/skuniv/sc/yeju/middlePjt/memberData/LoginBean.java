@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface LoginBean {
 	
-	public boolean usercheck(String s)throws IOException;
+	public boolean usercheck(String user)throws IOException;
 }

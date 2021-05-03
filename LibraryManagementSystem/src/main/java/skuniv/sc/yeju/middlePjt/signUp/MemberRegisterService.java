@@ -12,9 +12,9 @@ public class MemberRegisterService {
 	public void regist(RegisterRequest req) {
 		Member member = memberDao.selectByEmail(req.getEmail());
 		if (member != null) {
-			throw new AlreadyExistingMemberException("dup email " + req.getEmail());
+			throw new AlreadyExistingMemberException("email " + req.getEmail());
 		}
-		Member newMember = new Member(req.getName(), req.getPhoneNumber(), 
+		Member newMember = new Member(req.getID(), req.getName(), req.getPhoneNumber(), 
 		req.getEmail(), req.getAddress());
 		memberDao.insert(newMember);
 		

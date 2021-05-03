@@ -16,6 +16,7 @@ import skuniv.sc.yeju.middlePjt.memberData.LoginBean;
 import skuniv.sc.yeju.middlePjt.memberData.LoginDao;
 import skuniv.sc.yeju.middlePjt.memberData.MemberDao;
 import skuniv.sc.yeju.middlePjt.memberData.UserCheck;
+import skuniv.sc.yeju.middlePjt.memberData.editProfile;
 import skuniv.sc.yeju.middlePjt.signUp.MemberRegisterService;
 
 @Configuration
@@ -65,7 +66,10 @@ public class javaConfig {
 		return new printUserpage();
 		
 	}
-
+	@Bean
+	public editProfile editprofile() {
+		return new editProfile();
+	}
 
 }
 
